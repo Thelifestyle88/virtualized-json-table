@@ -1,0 +1,338 @@
+.page-width {
+  width: min(1216px, calc(100% - 80px));
+  margin-inline: auto;
+}
+
+.site-header {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+
+.brand-icon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  border-radius: 9px;
+  background: #184a37;
+}
+
+.brand-icon i { background: #d9ffab; border-radius: 1px; }
+.brand-icon i:nth-child(2) { opacity: .68; }
+.brand-icon i:nth-child(4) { opacity: .42; }
+
+.reload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.reload-button:hover:not(:disabled) { background: #eff5ec; border-color: #cedbce; }
+.reload-button:disabled { color: #69766f; background: #f8f9f7; }
+.reload-icon { font: 700 19px/1 'Segoe UI Symbol', sans-serif; }
+.catalog-page { padding-block: 28px 24px; }
+
+.catalog-intro {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(255px, 30%);
+  align-items: center;
+  gap: 28px;
+  min-height: 190px;
+  padding: 26px 34px;
+  border-radius: 18px;
+  background: linear-gradient(112deg, #152f26 12%, #1b4334 63%, #24543e);
+  color: #f7fcf4;
+}
+
+.catalog-intro::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: repeating-radial-gradient(ellipse at 75% 112%, transparent 0 16px, #cdff9d20 17px 18px, transparent 19px 28px);
+  mask-image: linear-gradient(90deg, transparent 19%, #000 70%, #0009);
+  pointer-events: none;
+}
+
+.catalog-copy h1 {
+  font-size: clamp(2rem, 5vw, 3.1rem);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -.062em;
+}
+
+.catalog-copy p {
+  margin-top: 13px;
+  color: #c3d8c8;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.download-card {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 138px;
+  padding: 15px 17px;
+  border: 1px solid #d8f7e030;
+  border-radius: 12px;
+  background: #10251de8;
+}
+
+.download-source, .download-state { display: flex; align-items: center; }
+.download-source { gap: 8px; font: 500 12px/1.4 'Cascadia Code', Consolas, monospace; color: #d3e4d6; }
+
+.file-icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 24px;
+  border: 1px solid #d7ffc938;
+  border-radius: 5px;
+  background: #b7e29221;
+  color: #d2faab;
+  font-size: 11px;
+}
+
+.download-state {
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 650;
+  color: #d9e6db;
+}
+
+.download-state strong { color: #dbffaa; font-size: 15px; font-variant-numeric: tabular-nums; }
+.download-card[data-status='error'] .download-state { color: #ffd9c8; }
+
+.download-progress {
+  width: 100%;
+  height: 5px;
+  margin-block: 9px 2px;
+  border: 0;
+  border-radius: 16px;
+  background: #456253;
+  accent-color: #cfff99;
+  overflow: hidden;
+}
+
+.download-progress::-webkit-progress-bar { background: #456253; border-radius: 16px; }
+.download-progress::-webkit-progress-value { background: #cfff99; border-radius: 16px; }
+.download-progress::-moz-progress-bar { background: #cfff99; border-radius: 16px; }
+.download-message { margin-top: 5px; color: #c2d7c8; font-size: 11px; line-height: 1.45; }
+
+.download-action {
+  align-self: flex-start;
+  margin-top: 9px;
+  padding: 4px 9px;
+  color: #eff9f0;
+  background: #c0e9c41c;
+  border: 1px solid #c0e9c445;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.download-action:hover { background: #c0e9c435; }
+.download-action:focus-visible { outline-color: #d4ffae; }
+
+.catalog-table {
+  margin-top: 19px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 5px 22px #172e2410;
+}
+
+.table-toolbar {
+  min-height: 70px;
+  padding: 12px 21px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.table-toolbar h2 { font-size: 20px; letter-spacing: -.035em; font-weight: 800; }
+.search-field { position: relative; flex: 0 1 309px; }
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid #586e62;
+  border-radius: 50%;
+  transform: translateY(-60%);
+  pointer-events: none;
+}
+
+.search-icon::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 1.5px;
+  background: #586e62;
+  border-radius: 5px;
+  transform: rotate(45deg);
+  right: -4px;
+  bottom: -2px;
+}
+
+.search-field input {
+  display: block;
+  width: 100%;
+  height: 39px;
+  padding: 0 11px 0 37px;
+  border: 1px solid #dce4da;
+  border-radius: 8px;
+  background: #f6f8f4;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.search-field input::placeholder { color: var(--muted); }
+.search-field input:focus { border-color: #7a9d87; background: #fff; }
+
+.table-viewport {
+  height: clamp(285px, calc(100svh - 445px), 580px);
+  container-type: inline-size;
+  overflow: auto;
+  scrollbar-color: #bfcac0 #f2f5ef;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+  border-top: 1px solid var(--border);
+}
+
+.table-viewport:focus-visible { outline-offset: -2px; }
+.table-viewport table { width: 100%; min-width: 820px; border-collapse: separate; border-spacing: 0; table-layout: fixed; }
+.table-viewport thead { position: sticky; top: 0; z-index: 1; }
+
+.table-viewport th {
+  padding: 0 14px;
+  background: #f0f4ee;
+  border-bottom: 1px solid var(--border);
+  color: #4e6157;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+.table-viewport td { padding: 0; }
+.product-row td { padding-inline: 14px; border-bottom: 1px solid #eaf0e9; font-size: 13px; }
+.product-row:hover { background: #f8fbf6; }
+.table-viewport th:first-child, .product-row td:first-child { padding-left: 21px; }
+.product-row [data-column='name'] { font-weight: 750; }
+.product-row [data-column='id'], .product-row [data-column='category'] { color: var(--muted); }
+.product-row [data-column='sku'] { color: #3f5c4b; font: 500 12px/1.4 'Cascadia Code', Consolas, monospace; }
+.product-row [data-column='id'], .product-row [data-column='quantity'] { font-variant-numeric: tabular-nums; }
+.cell-value { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+.product-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: #e8f5eb;
+  color: #225d3c;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.product-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.product-status[data-status='low_stock'] { background: #fbf2d8; color: #754c14; }
+.product-status[data-status='out_of_stock'] { background: #f8e8e5; color: #963d34; }
+mark { background: #d9f692; color: #1c361f; border-radius: 2px; }
+
+.empty-table {
+  position: sticky;
+  left: 0;
+  width: 100cqw;
+  display: grid;
+  justify-items: center;
+  gap: 13px;
+  padding: 64px 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.empty-table-icon {
+  width: 38px;
+  height: 34px;
+  border: 2px solid #cddbd1;
+  border-radius: 7px;
+  background: repeating-linear-gradient(0deg, #f9fbf8 0 8px, #cddbd1 8px 10px);
+}
+
+.table-footer {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: .35em;
+  padding: 8px 21px;
+  border-top: 1px solid var(--border);
+  background: #fcfdfa;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.table-footer b { color: var(--ink); }
+
+@media (max-width: 760px) {
+  .page-width { width: calc(100% - 32px); }
+  .catalog-page { padding-top: 18px; }
+  .catalog-intro { padding: 20px; gap: 16px; border-radius: 13px; }
+  .table-toolbar, .table-footer { padding-inline: 15px; }
+}
+
+@media (max-width: 580px) {
+  .header-inner { min-height: 58px; gap: 8px; }
+  .brand { font-size: 13px; gap: 7px; }
+  .brand-icon { width: 28px; height: 28px; padding: 7px; }
+  .reload-button { padding-inline: 8px; font-size: 11px; }
+  .catalog-intro { grid-template-columns: 1fr; }
+  .catalog-copy p { margin-top: 8px; }
+  .download-card { min-height: 97px; }
+  .table-toolbar { align-items: stretch; flex-direction: column; padding-block: 13px; }
+  .search-field { flex: initial; }
+  .search-field input { font-size: 16px; }
+  .table-viewport { height: 365px; }
+}
