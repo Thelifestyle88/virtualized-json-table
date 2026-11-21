@@ -5,7 +5,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import type { FilterFn } from '@tanstack/react-table'
-import { useLayoutEffect, useMemo, useRef } from 'react'
+import { useLayoutEffect, useMemo, useState } from 'react'
 import type { Product } from '../model/product'
 import { createProductSearch } from '../model/productSearch'
 import type { ProductSearchMatcher } from '../model/productSearch'
@@ -25,7 +25,8 @@ const formatCount = new Intl.NumberFormat('ru-RU')
 const HEADER_HEIGHT = 42
 
 export function ProductsTable({ products, query }: ProductsTableProps) {
-  const viewport = useRef<HTMLDivElement>(null)
+  // Mount the virtual rows after React attaches the scroll element.
+  const [viewport, setViewport] = useState<HTMLDivElement | null>(null)
   const search = useMemo(() => createProductSearch(query), [query])
   const columns = useMemo(() => createProductColumns(search), [search])
 
@@ -49,12 +50,12 @@ export function ProductsTable({ products, query }: ProductsTableProps) {
   const emptyMessage = products.length === 0 ? 'Нет данных для отображения' : 'Ничего не найдено'
 
   useLayoutEffect(() => {
-    if (viewport.current) viewport.current.scrollTop = 0
-  }, [query, products])
+    if (viewport) viewport.scrollTop = 0
+  }, [query, products, viewport])
 
   return (
     <>
-      <div className="table-viewport" ref={viewport} role="region" tabIndex={0} aria-label="Таблица товаров">
+      <div className="table-viewport" ref={setViewport} role="region" tabIndex={0} aria-label="Таблица товаров">
         <table aria-labelledby="table-title" aria-rowcount={rows.length + (rows.length === 0 ? 2 : 1)}>
           <colgroup>
             {visibleColumns.map((tableColumn) => (
@@ -82,7 +83,7 @@ export function ProductsTable({ products, query }: ProductsTableProps) {
                   </div>
                 </td>
               </tr>
-            ) : (
+            ) : viewport && (
               <VirtualProductRows
                 rows={rows}
                 columnCount={visibleColumns.length}
