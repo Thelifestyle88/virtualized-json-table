@@ -16,7 +16,6 @@ import { VirtualProductRows } from './VirtualProductRows'
 interface ProductsTableProps {
   products: Product[]
   query: string
-  isLoading: boolean
 }
 
 const filterProductCell: FilterFn<Product> = (row, columnId, search: ProductSearchMatcher) =>
@@ -25,7 +24,7 @@ const filterProductCell: FilterFn<Product> = (row, columnId, search: ProductSear
 const formatCount = new Intl.NumberFormat('ru-RU')
 const HEADER_HEIGHT = 42
 
-export function ProductsTable({ products, query, isLoading }: ProductsTableProps) {
+export function ProductsTable({ products, query }: ProductsTableProps) {
   const viewport = useRef<HTMLDivElement>(null)
   const search = useMemo(() => createProductSearch(query), [query])
   const columns = useMemo(() => createProductColumns(search), [search])
@@ -47,10 +46,7 @@ export function ProductsTable({ products, query, isLoading }: ProductsTableProps
 
   const rows = table.getRowModel().rows
   const visibleColumns = table.getVisibleLeafColumns()
-  const isWaiting = isLoading && products.length === 0
-  const emptyMessage = isWaiting
-    ? 'Таблица появится после загрузки'
-    : products.length === 0 ? 'Нет данных для отображения' : 'Ничего не найдено'
+  const emptyMessage = products.length === 0 ? 'Нет данных для отображения' : 'Ничего не найдено'
 
   useLayoutEffect(() => {
     if (viewport.current) viewport.current.scrollTop = 0

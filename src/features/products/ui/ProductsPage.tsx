@@ -12,6 +12,7 @@ export function ProductsPage() {
   const [isComposing, setIsComposing] = useState(false)
   const appliedQuery = useDebouncedSearch(query, isComposing)
   const isLoading = state.status === 'loading' || state.status === 'idle'
+  const visibleProducts = isLoading ? null : state.products
 
   return (
     <>
@@ -33,14 +34,23 @@ export function ProductsPage() {
             <h1 id="page-title">Каталог товаров</h1>
             <p>Наименования, остатки и статус наличия.</p>
           </div>
-          <DownloadStatus state={state} onCancel={cancelDownload} onStart={startDownload} />
         </section>
         <section className="catalog-table" aria-labelledby="table-title">
           <div className="table-toolbar">
             <h2 id="table-title">Ассортимент</h2>
-            <ProductSearchInput value={query} onChange={setQuery} onCompositionChange={setIsComposing} />
+            {visibleProducts !== null && (
+              <ProductSearchInput value={query} onChange={setQuery} onCompositionChange={setIsComposing} />
+            )}
           </div>
-          <ProductsTable products={state.products} query={appliedQuery} isLoading={isLoading} />
+          {state.status !== 'ready' && (
+            <DownloadStatus
+              state={state}
+              compact={visibleProducts !== null}
+              onCancel={cancelDownload}
+              onStart={startDownload}
+            />
+          )}
+          {visibleProducts !== null && <ProductsTable products={visibleProducts} query={appliedQuery} />}
         </section>
       </main>
     </>

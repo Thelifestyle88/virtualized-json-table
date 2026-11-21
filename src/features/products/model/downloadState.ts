@@ -2,11 +2,11 @@ import type { DownloadProgress } from '../../../shared/http/downloadJson'
 import type { Product } from './product'
 
 export type DownloadState =
-  | { status: 'idle'; products: Product[] }
-  | { status: 'loading'; products: Product[]; requestId: number; progress: DownloadProgress }
+  | { status: 'idle'; products: null }
+  | { status: 'loading'; products: Product[] | null; requestId: number; progress: DownloadProgress }
   | { status: 'ready'; products: Product[] }
-  | { status: 'cancelled'; products: Product[] }
-  | { status: 'error'; products: Product[]; message: string }
+  | { status: 'cancelled'; products: Product[] | null }
+  | { status: 'error'; products: Product[] | null; message: string }
 
 type DownloadAction =
   | { type: 'started'; requestId: number }
@@ -15,7 +15,7 @@ type DownloadAction =
   | { type: 'cancelled'; requestId: number }
   | { type: 'failed'; requestId: number; message: string }
 
-export const initialDownloadState: DownloadState = { status: 'idle', products: [] }
+export const initialDownloadState: DownloadState = { status: 'idle', products: null }
 
 export function reduceDownload(state: DownloadState, action: DownloadAction): DownloadState {
   if (action.type === 'started') {
