@@ -276,6 +276,20 @@
 .product-row [data-column='id'], .product-row [data-column='quantity'] { font-variant-numeric: tabular-nums; }
 .cell-value { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 
+.highlighted-text {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.highlighted-text-measurement {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: max-content;
+  visibility: hidden;
+}
+
 .product-status {
   display: inline-flex;
   align-items: center;

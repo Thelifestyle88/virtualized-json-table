@@ -21,7 +21,7 @@ interface ProductsTableProps {
 const filterProductCell: FilterFn<Product> = (row, columnId, search: ProductSearchMatcher) =>
   search.hasMatch(row.getValue<string>(columnId))
 
-const formatCount = new Intl.NumberFormat('ru-RU')
+const countFormatter = new Intl.NumberFormat('ru-RU')
 const HEADER_HEIGHT = 42
 
 export function ProductsTable({ products, query }: ProductsTableProps) {
@@ -46,6 +46,9 @@ export function ProductsTable({ products, query }: ProductsTableProps) {
   })
 
   const rows = table.getRowModel().rows
+  const rowCount = rows.length
+  // The header counts as a row, and an empty table has one placeholder row.
+  const ariaRowCount = 1 + Math.max(rowCount, 1)
   const visibleColumns = table.getVisibleLeafColumns()
   const emptyMessage = products.length === 0 ? 'Нет данных для отображения' : 'Ничего не найдено'
 
@@ -56,7 +59,7 @@ export function ProductsTable({ products, query }: ProductsTableProps) {
   return (
     <>
       <div className="table-viewport" ref={setViewport} role="region" tabIndex={0} aria-label="Таблица товаров">
-        <table aria-labelledby="table-title" aria-rowcount={rows.length + (rows.length === 0 ? 2 : 1)}>
+        <table aria-labelledby="table-title" aria-rowcount={ariaRowCount}>
           <colgroup>
             {visibleColumns.map((tableColumn) => (
               <col key={tableColumn.id} style={{ width: `${tableColumn.getSize()}%` }} />
@@ -74,7 +77,7 @@ export function ProductsTable({ products, query }: ProductsTableProps) {
             ))}
           </thead>
           <tbody>
-            {rows.length === 0 ? (
+            {rowCount === 0 ? (
               <tr>
                 <td colSpan={visibleColumns.length}>
                   <div className="empty-table">
@@ -96,8 +99,8 @@ export function ProductsTable({ products, query }: ProductsTableProps) {
       </div>
       <div className="table-footer" role="status">
         {query
-          ? <>Найдено <b>{formatCount.format(rows.length)}</b> из {formatCount.format(products.length)}</>
-          : <>Строк в таблице <b>{formatCount.format(rows.length)}</b></>}
+          ? <>Найдено <b>{countFormatter.format(rowCount)}</b> из {countFormatter.format(products.length)}</>
+          : <>Строк в таблице <b>{countFormatter.format(rowCount)}</b></>}
       </div>
     </>
   )

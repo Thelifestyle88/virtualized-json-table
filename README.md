@@ -1,21 +1,89 @@
 # Каталог товаров
 
+## Получение проекта
+
+Для клонирования установите Git и примите приглашение в приватный репозиторий под своим аккаунтом GitHub. [Приглашения в репозиторий](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/inviting-collaborators-to-a-personal-repository)
+
+```sh
+git clone https://github.com/Thelifestyle88/virtualized-json-table.git
+cd virtualized-json-table
+```
+
+Если у вас ZIP-архив, распакуйте его и откройте в терминале папку, где лежат `package.json` и `compose.yaml`. Все команды ниже выполняются из этой папки.
+
 ## Запуск
 
-Локально с Node.js 22.12 или новее
+Выберите один вариант запуска. Оба используют порт `5173` по умолчанию. Все данные уже лежат в `public/data/products.json`, Vite раздаёт их по пути `/data/products.json`.
+
+### Локально через npm
+
+1. Установите Node.js версии **22.12.0 или новее** с npm. Проверьте установку в новом терминале. [Скачать Node.js](https://nodejs.org/en/download)
+
+   ```sh
+   node --version
+   npm --version
+   ```
+
+2. В корне проекта установите зависимости из `package-lock.json` и запустите сервер разработки.
+
+   ```sh
+   npm ci
+   npm run dev
+   ```
+
+3. Откройте адрес из строки `Local` в терминале. Обычно это [http://localhost:5173](http://localhost:5173). Для остановки сервера нажмите `Ctrl+C` в том же терминале.
+
+### Через Docker Compose
+
+1. На Windows и macOS установите и запустите Docker Desktop. На Linux подойдёт Docker Desktop или Docker Engine с плагином Compose. Node.js входит в образ. [Установка Docker Compose](https://docs.docker.com/compose/install/)
+
+   ```sh
+   docker info
+   docker compose version
+   ```
+
+2. Из корня проекта соберите образ и запустите контейнер. Для первой сборки нужен интернет, чтобы скачать базовый образ и зависимости npm.
+
+   ```sh
+   docker compose up --build
+   ```
+
+3. Когда Vite сообщит о готовности, откройте [http://localhost:5173](http://localhost:5173) в браузере. В этом режиме логи идут в терминал, `Ctrl+C` останавливает контейнер.
+
+Для запуска в фоне и проверки статуса используйте следующие команды.
 
 ```sh
-npm ci
-npm run dev
+docker compose up --build -d
+docker compose ps
+docker compose logs -f app
 ```
 
-В Docker
+`Ctrl+C` в режиме просмотра логов завершает только просмотр. Контейнер остановится по команде `docker compose down`. После правок в исходниках повторите `docker compose up --build -d`, поскольку файлы приложения копируются в образ при сборке.
+
+### Как проверить, что приложение работает
+
+1. Откройте страницу. В разделе «Ассортимент» появится процент загрузки. Через несколько секунд там отобразится таблица с 5 000 строками. Прокрутите её до последней записи с номером `5000`.
+2. Введите `блокнот` в поле поиска. После паузы в 300 мс появятся совпадения с цветовой подсветкой. Очистите поле, чтобы вернуть все строки.
+3. Нажмите «Обновить данные», затем «Отменить» во время загрузки. После отмены нажмите «Повторить» и дождитесь появления таблицы.
+
+### Проверка сборки и предварительный просмотр
+
+После `npm ci` запустите линтер, сборку и локальный предпросмотр.
 
 ```sh
-docker compose up --build
+npm run lint
+npm run build
+npm run preview
 ```
 
-Приложение откроется по адресу [http://localhost:5173](http://localhost:5173).
+Готовые файлы находятся в `dist`. Предпросмотр обычно открывается по адресу [http://localhost:4173](http://localhost:4173). В предпросмотре JSON отдаётся как статический файл, поэтому локальная загрузка может завершиться почти мгновенно. Прогресс и отмену удобнее проверять на сервере разработки. [Документация Vite](https://vite.dev/guide/static-deploy.html#testing-the-app-locally)
+
+### Если запуск не удался
+
+- **Порт `5173` занят.** Остановите второй экземпляр приложения либо запустите локальный Vite командой `npm run dev -- --port 5174`. Для Compose можно заменить `127.0.0.1:5173:5173` на `127.0.0.1:5174:5173` в `compose.yaml`. После такого изменения откройте [http://localhost:5174](http://localhost:5174).
+- **Docker не подключается к движку.** Запустите Docker Desktop или службу Docker и повторите `docker info`. Если контейнер завершился, проверьте `docker compose ps -a` и `docker compose logs app`.
+- **PowerShell блокирует `npm.ps1`.** Используйте `npm.cmd ci` и `npm.cmd run dev` в PowerShell либо выполните обычные команды `npm` в командной строке Windows.
+- **`npm ci` или сборка Docker не скачивают зависимости.** Проверьте доступ к npm registry, а для Docker ещё и к Docker Hub. Для локального запуска проверьте версию Node.js командой `node --version`.
 
 ## Архитектурные решения
 
